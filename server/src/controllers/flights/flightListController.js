@@ -3,45 +3,53 @@ import amadeus from '../../utils/amadeusClientUtil.js';
 import generateErrorUtil from '../../utils/generateErrorUtil.js';
 import validateSearch from '../../validators/apiValidation.js';
 
-// función que obtiene la lista de vuelos.
-
+// Controlador para obtener la lista de vuelos.
 const flightListController = async (req, res, next) => {
-    /* (Endpoint sin JOI) try {
-        const { origin, destination, departureDate, returnDate, adults } =
-            req.query;
-
-        if (!origin || !destination || !departureDate) {
-            generateErrorUtil('Faltan campos.', 400);
-        }*/
-
-    // Extra validacion joi
-
     try {
-        // Validar los datos solicitados usando Joi
-        const { error, value } = validateSearch.validate(req.query);
+        // Validar los datos de la solicitud usando Joi
+        const { err, value } = validateSearch.validate(req.query);
 
-        if (error) {
-            generateErrorUtil('validacion invalida', 400);
+        // Si hay un error de validación, lanzar un error
+        if (err) {
+            throw generateErrorUtil('Datos de búsqueda inválidos. Por favor, revise los campos.', 400);
         }
 
-        // Solicitud a la API de Amadeus
+        // Extraer los valores validados
+        const { origin, destination, departureDate, returnDate, adults } = value;
+
+        // Verificar que los campos obligatorios estén presentes
+        if (!origin || !destination || !departureDate) {
+            throw generateErrorUtil('Faltan campos obligatorios: origin, destination o departureDate.', 400);
+        }
+
+        // Realizar la solicitud a la API de Amadeus
         const response = await amadeus.shopping.flight_offers_search.get({
-            originLocationCode: value.origin,
-            destinationLocationCode: value.destination,
-            departureDate: value.departureDate,
-            returnDate: value.returnDate, // Este no esta implementado
-            adults: value.adults,
+            originLocationCode: origin,
+            destinationLocationCode: destination,
+            departureDate: departureDate,
+            returnDate: returnDate || undefined, // Si no hay returnDate, no se incluye
+            adults: adults || 1, // Valor por defecto: 1 adulto
         });
 
+        // Extraer los datos de los vuelos de la respuesta
         const flights = response.data;
 
+        // Enviar la respuesta al cliente
         res.status(200).send({
             status: 'ok',
             data: flights,
             message: 'Lista de vuelos obtenida con éxito',
         });
     } catch (err) {
-        next(err);
+        // Manejar errores específicos de la API de Amadeus
+        if (err.response && err.response.status === 400) {
+            next(generateErrorUtil('Error en la solicitud a la API de Amadeus. Verifique los parámetros.', 400));
+        } else if (err.response && err.response.status === 500) {
+            next(generateErrorUtil('Error interno en la API de Amadeus. Inténtelo de nuevo más tarde.', 500));
+        } else {
+            // Pasar el error al middleware de manejo de errores
+            next(err);
+        }
     }
 };
 
