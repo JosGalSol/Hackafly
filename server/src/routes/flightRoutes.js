@@ -12,9 +12,9 @@ const router = express.Router();
 router.get('/api/flights/search', joiValidatorError, searchFlightsController);
 
 // Endpoint para almacenar la lista de vuelos y validarlos con la dependencia joi
-router.post('/api/flights/store', storeFlightListController);
+router.post('/api/flights/store', storeFlightListController, joiValidatorError);
 
 // Endpoint para filtrar la lista de vuelos almacenada y validarlos con la dependencia joi
-router.get('/api/flights/filter', filterFlightListController);
+router.get('/api/flights/filter', filterFlightListController, joiValidatorError);
 
 export default router;
