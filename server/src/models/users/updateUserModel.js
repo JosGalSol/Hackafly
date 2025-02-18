@@ -1,5 +1,4 @@
 import { getPool } from '../../db/getPool.js';
-
 import generateErrorUtil from '../../utils/generateErrorUtil.js';
 
 // Inicializamos el modelo.
@@ -13,57 +12,77 @@ const updateUserModel = async ({
 }) => {
     const pool = await getPool();
 
-    if (firstName) {
-        await pool.query(
-            `UPDATE users SET firstName = ?, modifiedAt = ? WHERE userId = ?`,
-            [firstName, new Date(), userId],
-        );
-    }
+    try {
+        // Verificar si el username ya está en uso por otro usuario
+        if (username) {
+            const [usersWithUsername] = await pool.query(
+                `SELECT userId FROM users WHERE username = ? AND userId != ?`,
+                [username, userId],
+            );
 
-    if (lastName) {
-        await pool.query(
-            `UPDATE users SET lastName = ?, modifiedAt = ? WHERE userId = ?`,
-            [lastName, new Date(), userId],
-        );
-    }
-
-    if (username) {
-        const [users] = await pool.query(
-            `SELECT userId FROM users WHERE username = ?`,
-            [username],
-        );
-
-        if (users.length > 0 && users[0].userId !== userId) {
-            generateErrorUtil('Nombre de usuario no disponible', 409);
+            if (usersWithUsername.length > 0) {
+                generateErrorUtil('Nombre de usuario no disponible', 409);
+            }
         }
 
-        await pool.query(
-            `UPDATE users SET username = ?, modifiedAt = ? WHERE userId = ?`,
-            [username, new Date(), userId],
-        );
-    }
+        // Verificar si el email ya está en uso por otro usuario
+        if (email) {
+            const [usersWithEmail] = await pool.query(
+                `SELECT userId FROM users WHERE email = ? AND userId != ?`,
+                [email, userId],
+            );
 
-    if (email) {
-        const [users] = await pool.query(
-            `SELECT userId FROM users WHERE email = ?`,
-            [email],
-        );
-
-        if (users.length > 0 && users[0].userId !== userId) {
-            generateErrorUtil('Email no disponible', 409);
+            if (usersWithEmail.length > 0) {
+                generateErrorUtil('Email no disponible', 409);
+            }
         }
 
-        await pool.query(
-            `UPDATE users SET email = ?, modifiedAt = ? WHERE userId = ?`,
-            [email, new Date(), userId],
-        );
-    }
+        // Construir la consulta dinámica para actualizar los campos proporcionados
+        const updates = [];
+        const params = [];
 
-    if (birthdate) {
-        await pool.query(
-            `UPDATE users SET birthdate = ?, modifiedAt = ? WHERE userId = ?`,
-            [birthdate, new Date(), userId],
-        );
+        if (firstName) {
+            updates.push('firstName = ?');
+            params.push(firstName);
+        }
+
+        if (lastName) {
+            updates.push('lastName = ?');
+            params.push(lastName);
+        }
+
+        if (username) {
+            updates.push('username = ?');
+            params.push(username);
+        }
+
+        if (email) {
+            updates.push('email = ?');
+            params.push(email);
+        }
+
+        if (birthdate) {
+            updates.push('birthdate = ?');
+            params.push(birthdate);
+        }
+
+        // Si no hay campos para actualizar, lanzar un error
+        if (updates.length === 0) {
+            generateErrorUtil('No se proporcionaron campos para actualizar', 400);
+        }
+
+        // Agregar el campo modifiedAt y el userId a los parámetros
+        updates.push('modifiedAt = ?');
+        params.push(new Date());
+        params.push(userId);
+
+        // Construir y ejecutar la consulta
+        const query = `UPDATE users SET ${updates.join(', ')} WHERE userId = ?`;
+        await pool.query(query, params);
+
+    } catch (err) {
+        console.error('Error en updateUserModel:', err); // Log del error para depuración
+        throw generateErrorUtil('Error al actualizar el usuario', 500);
     }
 };
 
