@@ -1,56 +1,145 @@
-// Importamos las dependencias.
-import amadeus from '../../utils/amadeusClientUtil.js';
 import generateErrorUtil from '../../utils/generateErrorUtil.js';
-import validateSearch from '../../validators/apiValidation.js';
 
-// Controlador para obtener la lista de vuelos.
-const flightListController = async (req, res, next) => {
+// Variable global para almacenar la lista de vuelos
+let globalFlights = [];
+
+// Controlador para almacenar la lista de vuelos en la variable global
+const storeFlightListController = (req, res, next) => {
     try {
-        // Validar los datos de la solicitud usando Joi
-        const { err, value } = validateSearch.validate(req.query);
+        const flights = req.body; // Asume que los vuelos se envían en el cuerpo de la solicitud
 
-        // Si hay un error de validación, lanzar un error
-        if (err) {
-            throw generateErrorUtil('Datos de búsqueda inválidos. Por favor, revise los campos.', 400);
+        // Validar que haya vuelos para almacenar
+        if (!flights || !Array.isArray(flights) || flights.length === 0) {
+            throw generateErrorUtil('No hay vuelos disponibles para almacenar.', 400);
         }
 
-        // Extraer los valores validados
-        const { origin, destination, departureDate, returnDate, adults } = value;
+        // Almacenar la lista de vuelos en la variable global
+        globalFlights = flights;
 
-        // Verificar que los campos obligatorios estén presentes
-        if (!origin || !destination || !departureDate) {
-            throw generateErrorUtil('Faltan campos obligatorios: origin, destination o departureDate.', 400);
-        }
-
-        // Realizar la solicitud a la API de Amadeus
-        const response = await amadeus.shopping.flight_offers_search.get({
-            originLocationCode: origin,
-            destinationLocationCode: destination,
-            departureDate: departureDate,
-            returnDate: returnDate || undefined, // Si no hay returnDate, no se incluye
-            adults: adults || 1, // Valor por defecto: 1 adulto
-        });
-
-        // Extraer los datos de los vuelos de la respuesta
-        const flights = response.data;
-
-        // Enviar la respuesta al cliente
+        // Enviar respuesta de éxito
         res.status(200).send({
             status: 'ok',
-            data: flights,
-            message: 'Lista de vuelos obtenida con éxito',
+            message: 'Lista de vuelos almacenada con éxito',
         });
     } catch (err) {
-        // Manejar errores específicos de la API de Amadeus
-        if (err.response && err.response.status === 400) {
-            next(generateErrorUtil('Error en la solicitud a la API de Amadeus. Verifique los parámetros.', 400));
-        } else if (err.response && err.response.status === 500) {
-            next(generateErrorUtil('Error interno en la API de Amadeus. Inténtelo de nuevo más tarde.', 500));
-        } else {
-            // Pasar el error al middleware de manejo de errores
-            next(err);
-        }
+        next(err);
     }
 };
 
-export default flightListController;
+// Controlador para filtrar la lista de vuelos almacenada
+const filterFlightListController = (req, res, next) => {
+    try {
+        // Validar que haya vuelos almacenados
+        if (!globalFlights || globalFlights.length === 0) {
+            throw generateErrorUtil('No hay vuelos disponibles para filtrar.', 404);
+        }
+
+        // Obtener los parámetros de filtrado del query
+        const {
+            airline,
+            minPrice,
+            maxPrice,
+            departureTime,
+            arrivalTime,
+            travelClass,
+            page = 1, // Página por defecto: 1
+            limit = 10, // Límite de resultados por página: 10
+        } = req.query;
+
+        // Validar que los parámetros de paginación sean números válidos
+        const parsedPage = parseInt(page);
+        const parsedLimit = parseInt(limit);
+        if (isNaN(parsedPage)) {
+            throw generateErrorUtil('El parámetro "page" debe ser un número válido.', 400);
+        }
+        if (isNaN(parsedLimit)) {
+            throw generateErrorUtil('El parámetro "limit" debe ser un número válido.', 400);
+        }
+
+        // Aplicar los filtros
+        let filteredFlights = globalFlights;
+
+        // Filtro por aerolínea
+        if (airline) {
+            filteredFlights = filteredFlights.filter(flight =>
+                flight.validatingAirlineCodes?.includes(airline.toUpperCase()),
+            );
+        }
+
+        // Filtro por precio mínimo
+        if (minPrice) {
+            const parsedMinPrice = parseFloat(minPrice);
+            if (isNaN(parsedMinPrice)) {
+                throw generateErrorUtil('El parámetro "minPrice" debe ser un número válido.', 400);
+            }
+            filteredFlights = filteredFlights.filter(
+                flight => parseFloat(flight.price?.total) >= parsedMinPrice,
+            );
+        }
+
+        // Filtro por precio máximo
+        if (maxPrice) {
+            const parsedMaxPrice = parseFloat(maxPrice);
+            if (isNaN(parsedMaxPrice)) {
+                throw generateErrorUtil('El parámetro "maxPrice" debe ser un número válido.', 400);
+            }
+            filteredFlights = filteredFlights.filter(
+                flight => parseFloat(flight.price?.total) <= parsedMaxPrice,
+            );
+        }
+
+        // Filtro por horario de salida
+        if (departureTime) {
+            const parsedDepartureTime = new Date(departureTime);
+            if (isNaN(parsedDepartureTime.getTime())) {
+                throw generateErrorUtil('El parámetro "departureTime" debe ser una fecha válida.', 400);
+            }
+            filteredFlights = filteredFlights.filter(flight => {
+                const departure = new Date(flight.itineraries[0]?.segments[0]?.departure?.at);
+                return departure >= parsedDepartureTime;
+            });
+        }
+
+        // Filtro por horario de llegada
+        if (arrivalTime) {
+            const parsedArrivalTime = new Date(arrivalTime);
+            if (isNaN(parsedArrivalTime.getTime())) {
+                throw generateErrorUtil('El parámetro "arrivalTime" debe ser una fecha válida.', 400);
+            }
+            filteredFlights = filteredFlights.filter(flight => {
+                const lastSegment = flight.itineraries[0]?.segments[flight.itineraries[0]?.segments.length - 1];
+                const arrival = new Date(lastSegment?.arrival?.at);
+                return arrival <= parsedArrivalTime;
+            });
+        }
+
+        // Filtro por clase de billete
+        if (travelClass) {
+            filteredFlights = filteredFlights.filter(flight =>
+                flight.travelerPricings?.some(pricing => pricing.travelerType === travelClass),
+            );
+        }
+
+        // Paginación
+        const startIndex = (parsedPage - 1) * parsedLimit;
+        const endIndex = parsedPage * parsedLimit;
+        const paginatedFlights = filteredFlights.slice(startIndex, endIndex);
+
+        // Enviar la respuesta con los vuelos filtrados y paginados
+        res.status(200).send({
+            status: 'ok',
+            data: paginatedFlights,
+            pagination: {
+                totalFlights: filteredFlights.length,
+                totalPages: Math.ceil(filteredFlights.length / parsedLimit),
+                currentPage: parsedPage,
+                flightsPerPage: parsedLimit,
+            },
+            message: 'Lista de vuelos filtrada y paginada con éxito',
+        });
+    } catch (err) {
+        next(err);
+    }
+};
+
+export { storeFlightListController, filterFlightListController };

@@ -16,6 +16,7 @@ import {
     activateUserController,
     sendRecoveryPassEmailController,
     useRecoveryPassCodeController,
+    updateUserController,
 } from '../controllers/users/index.js';
 
 //importamos controladores de valoraciones
@@ -46,6 +47,7 @@ router.put('/password/reset/:recoverPassCode', useRecoveryPassCodeController);
 router.get('/profile', authUserMiddleware, privateUserProfileController);
 
 // Actualizar el perfil del usuario (requiere estar autenticado)(extra)
+router.put('/profile', authUserMiddleware, updateUserController);
 
 // Guardar un criterio de búsqueda como favorito (requiere autenticación)
 router.post('/favorites', authUserMiddleware, saveUserFavoriteController);
