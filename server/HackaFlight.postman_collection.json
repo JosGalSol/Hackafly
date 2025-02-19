@@ -16,7 +16,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"firstName\" : \"Angela\",\r\n    \"lastName\" : \"del pan\",\r\n    \"username\": \"pan\",\r\n    \"email\": \"angeladelpan@gmail.com\",\r\n    \"password\": \"1234\",\r\n    \"birthdate\" : \"1985-04-19\"\r\n}",
+							"raw": "{\r\n    \"firstName\" : \"Andres\",\r\n    \"lastName\" : \"Sarria\",\r\n    \"username\": \"Pipe\",\r\n    \"email\": \"andres.sarria@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"birthdate\" : \"1985-09-30\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -45,7 +45,7 @@
 						"method": "PUT",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8000/api/users/validate/6e7c59728c2ebedaed06395e5f77f9",
+							"raw": "http://localhost:8000/api/users/validate/84ef441b3e1037d940ef3c534205fb",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -55,7 +55,7 @@
 								"api",
 								"users",
 								"validate",
-								"6e7c59728c2ebedaed06395e5f77f9"
+								"84ef441b3e1037d940ef3c534205fb"
 							]
 						}
 					},
@@ -68,7 +68,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"admin@example.com\",\r\n    \"password\": \"123456\"\r\n}",
+							"raw": "{\r\n    \"email\": \"andres.sarria@gmail.com\",\r\n    \"password\": \"123456\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -101,7 +101,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{token_userHack}}",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6Im5vcm1hbCIsImlhdCI6MTczOTg5OTg0MSwiZXhwIjoxNzQwNTA0NjQxfQ.RChCkVpwD12XgnJKuB3BqRZtTzNK9nfs1Yh6mt2WIH4",
 								"type": "text"
 							}
 						],
@@ -132,7 +132,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{token_userHack}}",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6Im5vcm1hbCIsImlhdCI6MTczOTg5OTg0MSwiZXhwIjoxNzQwNTA0NjQxfQ.RChCkVpwD12XgnJKuB3BqRZtTzNK9nfs1Yh6mt2WIH4",
 								"type": "text"
 							}
 						],
@@ -168,7 +168,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{token_userHack}}",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6Im5vcm1hbCIsImlhdCI6MTczOTg5NjI4MywiZXhwIjoxNzQwNTAxMDgzfQ.vxJBEeHNCbGJozG2dfSOG9uH-W1mtiuocFg5Lki2ytw",
 								"type": "text"
 							}
 						],
@@ -210,7 +210,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"title\": \"Bilbao\",\r\n    \"origin\": \"BIO\",\r\n    \"destination\": \"BCN\",\r\n    \"departureDate\": \"2024-02-29\",\r\n    \"adults\": 1\r\n}",
+							"raw": "{\r\n    \"title\": \"Bilbao\",\r\n    \"origin\": \"BIO\",\r\n    \"destination\": \"BCN\",\r\n    \"departureDate\": \"2025-02-29\",\r\n    \"returnDate\": \"2025-03-20\",\r\n    \"adults\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -218,7 +218,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8000/api/users/favorites",
+							"raw": "http://localhost:8000/api/users/favorites?Authorization=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6Im5vcm1hbCIsImlhdCI6MTczOTg5NjI4MywiZXhwIjoxNzQwNTAxMDgzfQ.vxJBEeHNCbGJozG2dfSOG9uH-W1mtiuocFg5Lki2ytw",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -228,6 +228,12 @@
 								"api",
 								"users",
 								"favorites"
+							],
+							"query": [
+								{
+									"key": "Authorization",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6Im5vcm1hbCIsImlhdCI6MTczOTg5NjI4MywiZXhwIjoxNzQwNTAxMDgzfQ.vxJBEeHNCbGJozG2dfSOG9uH-W1mtiuocFg5Lki2ytw"
+								}
 							]
 						}
 					},
@@ -397,7 +403,70 @@
 					"name": "Search Flight",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/flights/search?origin=EZE&destination=BCN&departureDate=2025-03-10&returnDate=2025-03-30&adults=2&sortBy=stops&order=desendente",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"flights",
+								"search"
+							],
+							"query": [
+								{
+									"key": "origin",
+									"value": "EZE"
+								},
+								{
+									"key": "destination",
+									"value": "BCN"
+								},
+								{
+									"key": "departureDate",
+									"value": "2025-03-10"
+								},
+								{
+									"key": "returnDate",
+									"value": "2025-03-30"
+								},
+								{
+									"key": "adults",
+									"value": "2"
+								},
+								{
+									"key": "sortBy",
+									"value": "price",
+									"disabled": true
+								},
+								{
+									"key": "sortBy",
+									"value": "stops"
+								},
+								{
+									"key": "sortBy",
+									"value": "flightDuration",
+									"disabled": true
+								},
+								{
+									"key": "order",
+									"value": "desendente"
+								},
+								{
+									"key": "minPrice",
+									"value": "60",
+									"disabled": true
+								},
+								{
+									"key": "maxPrice",
+									"value": "100",
+									"disabled": true
+								}
+							]
+						}
 					},
 					"response": []
 				}
