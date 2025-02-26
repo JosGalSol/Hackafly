@@ -1,17 +1,17 @@
-import { useEffect, useState, useContext } from "react";
+/* import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
-// Importamos el hook personalizado
+Importamos el hook personalizado
 import useUsersList from "../hooks/useUsersList.js";
 import { AuthContext } from "../context/AuthContext";
 
 
-// Obtenemos las variables de entorno
+Obtenemos las variables de entorno
 
 const { VITE_API_URL } = import.meta.env;
 
-// Iniciamos el componente
+Iniciamos el componente
 const AdminListUsers = () => {
 
     const [searchValues, setSearchValues] = useState({
@@ -21,14 +21,14 @@ const AdminListUsers = () => {
         lastName: "",
     });
 
-// Obtenemos los elementos necesarios del contexto pertinente.
+Obtenemos los elementos necesarios del contexto pertinente.
 
     const { users, loading } = useUsersList(searchValues);
     const { authToken } = useContext(AuthContext);
     const navigate = useNavigate();
     const token = authToken || localStorage.getItem("token");
 
-// Manejar cambios en los inputs de búsqueda
+Manejar cambios en los inputs de búsqueda
     const handleChange = (e) => {
         setSearchValues({
             ...searchValues,
@@ -38,7 +38,7 @@ const AdminListUsers = () => {
 
 
 
-    // Habilitar/Deshabilitar usuario
+    Habilitar/Deshabilitar usuario
     const handleToggleUserStatus = async (userId, isActive) => {
         try {
             const res = await fetch(`${VITE_API_URL}/api/users/${userId}/activate`, {
@@ -61,7 +61,7 @@ const AdminListUsers = () => {
     };
     
 
-// Borrar usuario
+Borrar usuario
 const handleDeleteUser = async (userId) => {
     if (!window.confirm("¿Estás seguro de eliminar este usuario?")) return;
 
@@ -138,4 +138,4 @@ const handleDeleteUser = async (userId) => {
     );
 };
 
-export default AdminListUsers;
+export default AdminListUsers; */

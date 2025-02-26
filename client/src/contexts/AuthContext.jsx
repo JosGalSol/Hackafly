@@ -20,7 +20,7 @@ const AuthProvider = ({ children }) => {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const res = await fetch(`${VITE_API_URL}/api/users`, {
+                const res = await fetch(`${VITE_API_URL}/api/users/profile`, {
                     headers: {
                         Authorization: authToken,
                     },
