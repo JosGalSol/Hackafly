@@ -14,7 +14,6 @@ const Footer = () => {
     return (
         <>
             <footer>
-
                 {/* Sección de contacto */}
                 <div className="Contacto">
                     <h3>Contactar</h3>
