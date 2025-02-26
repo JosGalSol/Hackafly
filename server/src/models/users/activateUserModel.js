@@ -10,7 +10,7 @@ const activateUserModel = async (regCode) => {
     );
 
     if (users.length < 1) {
-        throw generateErrorUtil('Codigo de registro invalido', 404);
+        generateErrorUtil('Codigo de registro invalido', 404);
     }
 
     await pool.query(

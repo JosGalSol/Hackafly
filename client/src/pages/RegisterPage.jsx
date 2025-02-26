@@ -1,5 +1,8 @@
 //Importamos hooks
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { AuthContext } from '../contexts/AuthContext';
+
+//Importamos dependencias
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
@@ -8,6 +11,8 @@ const { VITE_API_URL } = import.meta.env;
 
 //Iniciamos el componente
 const RegisterPage = () => {
+    //obtenemos el contexto de autorización
+    const { authUser } = useContext(AuthContext);
     //obtenemos navigate
     const navigate = useNavigate();
     //Creamos una variable en el State por cada elemento del forumlario
@@ -72,132 +77,139 @@ const RegisterPage = () => {
             setLoading(false);
         }
     };
+    //Si el usuario está logueado, redirigimos a la página de home
+    if (authUser) {
+        navigate('/');
+    }
     return (
-        <main className="bg-[#E5F7FF] flex items-center justify-center min-h-screen">
-            <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-                <h2 className="text-2xl font-bold text-[#083059] text-center mb-6">
+        <main className='bg-[#E5F7FF] flex items-center justify-center min-h-screen p-4 sm:p-6 md:p-8'>
+            <div className='bg-white p-8 rounded-lg shadow-md w-full max-w-[90%] sm:max-[70%] md:max-w-md'>
+                <h2 className='text-xl sm:text-2xl font-bold text-[#083059] text-center mb-4 sm:mb-6'>
                     Crea tu cuenta
                 </h2>
 
-                <form onSubmit={handleRegister} className="space-y-4">
+                <form
+                    onSubmit={handleRegister}
+                    className='space-y-3 sm:space-y-4'
+                >
                     <div>
                         <label
-                            htmlFor="firstName"
-                            className="block text-[#083059] font-medium"
+                            htmlFor='firstName'
+                            className='block text-[#083059] font-medium'
                         >
                             Nombre
                         </label>
                         <input
-                            type="text"
-                            id="firstName"
+                            type='text'
+                            id='firstName'
                             value={firstName}
                             onChange={(e) => setFirstName(e.target.value)}
-                            className="w-full p-3 border border-[#3951AA] rounded-md focus:outline-none focus:ring-2 focus:ring-[#179DD9]"
+                            className='w-full p-3 border border-[#3951AA] rounded-md focus:outline-none focus:ring-2 focus:ring-[#179DD9]'
                             required
                         />
                     </div>
                     <div>
-                        <div>
-                            <label
-                                htmlFor="lastName"
-                                className="block text-[#083059] font-medium"
-                            >
-                                Apellidos
-                            </label>
-                            <input
-                                type="text"
-                                id="lastName"
-                                value={lastName}
-                                onChange={(e) => setLastName(e.target.value)}
-                                className="w-full p-3 border border-[#3951AA] rounded-md focus:outline-none focus:ring-2 focus:ring-[#179DD9]"
-                                required
-                            />
-                        </div>
                         <label
-                            htmlFor="username"
-                            className="block text-[#083059] font-medium"
+                            htmlFor='lastName'
+                            className='block text-[#083059] font-medium'
+                        >
+                            Apellidos
+                        </label>
+                        <input
+                            type='text'
+                            id='lastName'
+                            value={lastName}
+                            onChange={(e) => setLastName(e.target.value)}
+                            className='w-full p-3 border border-[#3951AA] rounded-md focus:outline-none focus:ring-2 focus:ring-[#179DD9]'
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label
+                            htmlFor='username'
+                            className='block text-[#083059] font-medium'
                         >
                             Usuario
                         </label>
                         <input
-                            type="text"
-                            id="username"
+                            type='text'
+                            id='username'
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
-                            className="w-full p-3 border border-[#3951AA] rounded-md focus:outline-none focus:ring-2 focus:ring-[#179DD9]"
+                            className='w-full p-3 border border-[#3951AA] rounded-md focus:outline-none focus:ring-2 focus:ring-[#179DD9]'
                             required
                         />
                     </div>
 
                     <div>
                         <label
-                            htmlFor="email"
-                            className="block text-[#083059] font-medium"
+                            htmlFor='email'
+                            className='block text-[#083059] font-medium'
                         >
                             Correo Electrónico
                         </label>
                         <input
-                            type="email"
-                            id="email"
+                            type='email'
+                            id='email'
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="w-full p-3 border border-[#3951AA] rounded-md focus:outline-none focus:ring-2 focus:ring-[#179DD9]"
+                            className='w-full p-3 border border-[#3951AA] rounded-md focus:outline-none focus:ring-2 focus:ring-[#179DD9]'
                             required
                         />
                     </div>
 
                     <div>
                         <label
-                            htmlFor="password"
-                            className="block text-[#083059] font-medium"
+                            htmlFor='password'
+                            className='block text-[#083059] font-medium'
                         >
                             Contraseña
                         </label>
                         <input
-                            type="password"
-                            id="password"
+                            type='password'
+                            id='password'
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="w-full p-3 border border-[#3951AA] rounded-md focus:outline-none focus:ring-2 focus:ring-[#179DD9]"
+                            className='w-full p-3 border border-[#3951AA] rounded-md focus:outline-none focus:ring-2 focus:ring-[#179DD9]'
                             required
                         />
                     </div>
 
                     <div>
                         <label
-                            htmlFor="passConfirm"
-                            className="block text-[#083059] font-medium"
+                            htmlFor='passConfirm'
+                            className='block text-[#083059] font-medium'
                         >
                             Confirmar Contraseña
                         </label>
                         <input
-                            type="password"
-                            id="passConfirm"
+                            type='password'
+                            id='passConfirm'
                             value={passConfirm}
                             onChange={(e) => setPassConfirm(e.target.value)}
-                            className="w-full p-3 border border-[#3951AA] rounded-md focus:outline-none focus:ring-2 focus:ring-[#179DD9]"
+                            className='w-full p-3 border border-[#3951AA] rounded-md focus:outline-none focus:ring-2 focus:ring-[#179DD9]'
                             required
                         />
                     </div>
                     <div>
                         <label
-                            htmlFor="birthdate"
-                            className="block text-[#083059] font-medium"
+                            htmlFor='birthdate'
+                            className='block text-[#083059] font-medium'
                         >
                             Correo Electrónico
                         </label>
                         <input
-                            type="date"
-                            id="birthdate"
+                            type='date'
+                            id='birthdate'
                             value={birthdate}
                             onChange={(e) => setBirthdate(e.target.value)}
-                            className="w-full p-3 border border-[#3951AA] rounded-md focus:outline-none focus:ring-2 focus:ring-[#179DD9]"
+                            className='w-full p-3 border border-[#3951AA] rounded-md focus:outline-none focus:ring-2 focus:ring-[#179DD9]'
                             required
                         />
                     </div>
 
                     <button
-                        type="submit"
+                        type='submit'
                         disabled={loading}
                         className={`w-full py-3 font-bold rounded-md transition 
                             ${
@@ -210,11 +222,11 @@ const RegisterPage = () => {
                     </button>
                 </form>
 
-                <p className="text-center text-[#083059] mt-4">
+                <p className='text-center text-[#083059] mt-4'>
                     ¿Ya tienes cuenta?{' '}
                     <a
-                        href="/login"
-                        className="text-[#3951AA] font-bold hover:underline"
+                        href='/login'
+                        className='text-[#3951AA] font-bold hover:underline'
                     >
                         Inicia sesión
                     </a>

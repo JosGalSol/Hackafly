@@ -82,7 +82,7 @@ const insertUserModel = async (
 
         Gracias por registrarte en Hack a flight. Para activar tu cuenta y empezar a ahorrar en tus vuelos, haz click en el siguiente enlace:
 
-        ${process.env.CLIENT_URL}/api/users/validate/${regCode}
+        ${process.env.CLIENT_URL}/validate/${regCode}
     `;
 
     // Enviamos el email.

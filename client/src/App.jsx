@@ -8,24 +8,31 @@ import Footer from './components/Footer';
 import RegisterPage from './pages/RegisterPage';
 import HomePage from './pages/HomePage';
 import UserProfilePage from './pages/UserProfilePage';
+import AdminListUsers from './pages/AdminListUsers';
+import NotFoundPage from './pages/NotFoundPage';
+import ValidateUserPage from './pages/ValidateUserPage';
 
 const App = () => {
     return (
         <>
-            <Header />
+            <Header />  
 
-            <Toaster position="top-center" />
+            <Toaster position='top-center' />
 
             {/* Todos los endpoints han de definirse dentro de este compontente. */}
             <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/register" element={<RegisterPage />} />
+                <Route path="/admin/users" element={<AdminListUsers />} />
+
+                
                 {/*<Route path="/login" element={<LoginPage />} />*/}
-                {/*<Route
-                    path="/users/validate/:regCode"
+                <Route
+                    path='/validate/:regCode'
                     element={<ValidateUserPage />}
                 />*/}
                 <Route path="/users/profile" element={<UserProfilePage />} />
+
                 {/*<Route
                     path="/users/password/recovery/request"
                     element={<SendRecoveryPassPage />}
@@ -36,7 +43,7 @@ const App = () => {
                 />*/}
                 {/* Añadir más rutas de endpoints. */}
 
-                {/*<Route path="*" element={<NotFoundPage />} />*/}
+                <Route path="*" element={<NotFoundPage />} />
             </Routes>
 
             <Footer />

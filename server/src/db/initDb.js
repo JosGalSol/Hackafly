@@ -5,7 +5,7 @@ import 'dotenv/config';
 const {
     MYSQL_ADMIN_USER,
     MYSQL_ADMIN_PASSWORD,
-    MYSQL_ADMIN_FIRSTNAM,
+    MYSQL_ADMIN_FIRSTNAME,
     MYSQL_ADMIN_LASTNAME,
     MYSQL_ADMIN_EMAIL,
 } = process.env;
@@ -87,7 +87,7 @@ const main = async () => {
          VALUES (?, ?, ?, ?, ?, ?, ?)`,
             [
                 `${MYSQL_ADMIN_USER}`,
-                `${MYSQL_ADMIN_FIRSTNAM}`,
+                `${MYSQL_ADMIN_FIRSTNAME}`,
                 `${MYSQL_ADMIN_LASTNAME}`,
                 hashedPass,
                 `${MYSQL_ADMIN_EMAIL}`,
