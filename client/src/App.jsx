@@ -7,7 +7,7 @@ import Footer from './components/Footer';
 // Importamos las páginas.
 import RegisterPage from './pages/RegisterPage';
 import HomePage from './pages/HomePage';
-/* import AdminListUsers from './pages/AdminListUsers'; */
+import AdminListUsers from './pages/AdminListUsers';
 import NotFoundPage from './pages/NotFoundPage';
 import ValidateUserPage from './pages/ValidateUserPage';
 import LoginPage from './pages/LoginPage.jsx';
@@ -23,7 +23,7 @@ const App = () => {
             <Routes>
                 <Route path='/' element={<HomePage />} />
                 <Route path='/register' element={<RegisterPage />} />
-                {/*<Route path="/admin/users" element={<AdminListUsers />} />*/}
+                <Route path='/admin/users' element={<AdminListUsers />} />
 
                 <Route path='/login' element={<LoginPage />} />
                 <Route
