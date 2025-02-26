@@ -7,6 +7,7 @@ import Footer from './components/Footer';
 // Importamos las páginas.
 import RegisterPage from './pages/RegisterPage';
 import HomePage from './pages/HomePage';
+import UserProfilePage from './pages/UserProfilePage';
 
 const App = () => {
     return (
@@ -24,7 +25,7 @@ const App = () => {
                     path="/users/validate/:regCode"
                     element={<ValidateUserPage />}
                 />*/}
-                {/*<Route path="/users/profile" element={<UserProfilePage />} />*/}
+                <Route path="/users/profile" element={<UserProfilePage />} />
                 {/*<Route
                     path="/users/password/recovery/request"
                     element={<SendRecoveryPassPage />}
@@ -39,7 +40,7 @@ const App = () => {
             </Routes>
 
             <Footer />
-            </>
+        </>
     );
 };
 
