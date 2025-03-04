@@ -30,7 +30,14 @@ app.use('/uploads', express.static(path.join(__dirname, UPLOADS_DIR)));
 app.use(morgan('dev'));
 
 //midlleware que evita problemas de conexión entre cliente y servidor
-app.use(cors());
+app.use(
+    cors({
+        origin: 'http://localhost:3000', // Aquí debes poner el origen desde donde se hace la solicitud
+        methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+        allowedHeaders: ['Content-Type', 'Authorization'],
+        credentials: true, // Permite el uso de cookies o cabeceras de autorización
+    }),
+);
 
 //middleware que indica a Express dónde se encuentran los archivos estáticos.
 app.use(express.static(UPLOADS_DIR));

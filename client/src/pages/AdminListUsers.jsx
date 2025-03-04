@@ -6,6 +6,9 @@ import toast from "react-hot-toast";
 import useUsersList from "../hooks/useUsersList.js";
 import { AuthContext } from "../contexts/AuthContext";
 
+// Importamos el nuevo componente de la tabla
+import UserListTable from "../components/UserListTable.jsx";
+
 // Obtenemos las variables de entorno
 
 const { VITE_API_URL } = import.meta.env;
@@ -21,10 +24,10 @@ const AdminListUsers = () => {
 
     // Obtenemos los elementos necesarios del contexto pertinente.
 
-    const { users, loading } = useUsersList(searchValues);
+    const { users, loading, getUsers } = useUsersList(searchValues);
     const { authToken } = useContext(AuthContext);
     const navigate = useNavigate();
-    const token = authToken || localStorage.getItem("token");
+    const token = authToken;
 
     // Manejar cambios en los inputs de búsqueda
     const handleChange = (e) => {
@@ -34,6 +37,11 @@ const AdminListUsers = () => {
         });
     };
 
+    // Ejecutar la búsqueda cuando se actualicen los valores de búsqueda
+    useEffect(() => {
+        getUsers(searchValues);  // Llamar a getUsers con los valores de búsqueda
+    }, [searchValues, getUsers]);
+    console.log()
     // Habilitar/Deshabilitar usuario
     const handleToggleUserStatus = async (userId, isActive) => {
         try {
@@ -86,7 +94,7 @@ const AdminListUsers = () => {
             );
         }
     };
-
+// redirigir al login si falla la auth
     useEffect(() => {
         if (!token) {
             toast.error("No tienes permisos para ver esta página.");
@@ -95,8 +103,8 @@ const AdminListUsers = () => {
     }, [token, navigate]);
 
     return (
-        <main>
-            <h1>Lista de Usuarios</h1>
+        <main className="bg-[#E5F7FF] flex items-center justify-center min-h-screen p-4">
+            <h1  className="text-2xl font-bold text-[#083059] text-center mb-6">Lista de Usuarios</h1>
 
             <div>
                 <input
@@ -132,51 +140,11 @@ const AdminListUsers = () => {
             {loading ? (
                 <p>Cargando usuarios...</p>
             ) : (
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Usuario</th>
-                            <th>Email</th>
-                            <th>Nombre</th>
-                            <th>Apellido</th>
-                            <th>Estado</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {users.map((user) => (
-                            <tr key={user.id}>
-                                <td>{user.username}</td>
-                                <td>{user.email}</td>
-                                <td>{user.firstName}</td>
-                                <td>{user.lastName}</td>
-                                <td>{user.isActive ? "Activo" : "Inactivo"}</td>
-                                <td>
-                                    <button
-                                        onClick={() =>
-                                            handleToggleUserStatus(
-                                                user.id,
-                                                user.isActive
-                                            )
-                                        }
-                                    >
-                                        {user.isActive
-                                            ? "Deshabilitar"
-                                            : "Habilitar"}
-                                    </button>
-                                    <button
-                                        onClick={() =>
-                                            handleDeleteUser(user.id)
-                                        }
-                                        style={{ marginLeft: "10px" }}
-                                    >
-                                        Eliminar
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                <UserListTable 
+                    users={users} 
+                    handleToggleUserStatus={handleToggleUserStatus} 
+                    handleDeleteUser={handleDeleteUser}
+                />
             )}
         </main>
     );
