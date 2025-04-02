@@ -40,8 +40,6 @@ const SearchResultsPage = () => {
     // función para manejar el cambio de filtros
     const handleFilterChange = async (filters) => {
         try {
-            console.log('Filters applied:', filters);
-
             // Filtrar los parámetros vacíos
             const searchParams = new URLSearchParams();
             Object.keys(filters).forEach((key) => {
@@ -49,7 +47,6 @@ const SearchResultsPage = () => {
                     searchParams.append(key, filters[key]);
                 }
             });
-            console.log('Filtered parameters:', searchParams.toString());
 
             // Realizar la petición a la API para vuelos filtrados
             const res = await fetch(
@@ -59,8 +56,6 @@ const SearchResultsPage = () => {
                     headers: { 'Content-Type': 'application/json' },
                 },
             );
-
-            console.log('Response:', res);
 
             // Manejar la respuesta de la API
             if (!res.ok)
@@ -82,9 +77,6 @@ const SearchResultsPage = () => {
                     flight.itineraries,
                 );
             });
-
-            console.log('Filtered flights data:', filteredFlights);
-            console.log('Updated flights state:', filteredFlights);
         } catch (err) {
             console.log('Error al filtrar vuelos:', err);
             console.log('Error message:', err.message);
@@ -217,7 +209,7 @@ const SearchResultsPage = () => {
                 />
 
                 {authToken && (
-                    <div className='w-full max-w-lg mx-auto mt-4 p-4 sm:p-6 ' >
+                    <div className='w-full max-w-lg mx-auto mt-4 p-4 sm:p-6 '>
                         {/* Titulo de la búsqueda */}
                         <input
                             type='text'
@@ -290,7 +282,6 @@ const SearchResultsPage = () => {
                                     flight={flight}
                                     searchParams={searchParams}
                                 />
-                                
                             ))
                         ) : (
                             <p>No hay vuelos que coincidan con los filtros.</p>
