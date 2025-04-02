@@ -38,7 +38,6 @@ const HomePage = () => {
 
     useEffect(() => {
         const handleScroll = () => {
-            console.log('scrollY:', window.scrollY);
             if (window.scrollY > 0) {
                 setOpacity(1);
             } else {
@@ -202,7 +201,6 @@ const HomePage = () => {
     // Renderizamos el componente
     return (
         <main className='min-h-screen bg-gradient-to-b from-dark-blue to-white'>
-            
             <Header className='sticky' />
 
             <section className='relative flex flex-col items-center justify-center p-4 mt-16'>

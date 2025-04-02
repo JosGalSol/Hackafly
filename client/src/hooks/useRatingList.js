@@ -9,7 +9,6 @@ const { VITE_API_URL } = import.meta.env;
 const useRatingList = () => {
     //Declaramos una variable en el State que permita almacenar el array de entradas
     const [ratings, setRatings] = useState([]);
-    console.log('Ratings:', ratings);
     //obtenemos las entradas cuando se monta el componente
     useEffect(() => {
         //solicitamos las valoraciones al servidor

@@ -30,7 +30,7 @@ const authUserMiddleware = async (req, res, next) => {
             next();
         } catch (err) {
             console.error(err);
-            return next(generateErrorUtil('Token inválido', 403));
+            next(generateErrorUtil('Token inválido', 403));
         }
     } catch (err) {
         next(err);

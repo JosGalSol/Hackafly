@@ -2,7 +2,6 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import generateErrorUtil from '../../utils/generateErrorUtil.js';
 import selectUserByEmailModel from '../../models/users/selectUserByEmailModel.js';
-import { adminConfig } from '../../db/getPool.js';
 
 const loginUserController = async (req, res, next) => {
     try {
@@ -25,12 +24,6 @@ const loginUserController = async (req, res, next) => {
 
         if (!user.active) {
             throw generateErrorUtil('Cuenta en espera de validacion.', 403);
-        }
-
-        // Comprobamos si el usuario es el administrador
-        if (email === adminConfig.email && password === adminConfig.password) {
-            // Lógica si el usuario es el administrador
-            console.log('¡Administrador autenticado!');
         }
 
         const tokenInfo = {
