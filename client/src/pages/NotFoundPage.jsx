@@ -1,10 +1,10 @@
-import Header from '../components/Header';
+
 
 // Inicializamos el componente.
 const NotFoundPage = () => {
     return (
         <>
-            <Header />
+            
             <main className='bg-black min-h-screen flex flex-col items-center justify-center p-4'>
                 <div className='max-w-sm w-full mx-auto text-center'>
                     <h3 className='text-light-blue font-button  text-6xl font-semibold mb-2'>

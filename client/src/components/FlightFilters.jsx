@@ -15,7 +15,7 @@ const FlightFilters = ({ onFilterChange, visibleAirlines }) => {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        console.log(`Filter changed: ${name} = ${value}`);
+    
         setFilters((prevFilters) => ({
             ...prevFilters,
             [name]: value,
@@ -38,7 +38,6 @@ const FlightFilters = ({ onFilterChange, visibleAirlines }) => {
     };
 
     const applyFilters = () => {
-        console.log('Applying filters:', filters);
         onFilterChange(filters);
     };
 
@@ -70,7 +69,6 @@ const FlightFilters = ({ onFilterChange, visibleAirlines }) => {
     }, []);
 
     useEffect(() => {
-        console.log('Filters state updated:', filters);
     }, [filters]);
 
     return (

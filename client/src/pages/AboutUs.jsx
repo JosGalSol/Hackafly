@@ -1,19 +1,19 @@
 //Importamos componentes
-import Header from '../components/Header';
+
 import { FaPlane, FaHandshake, FaLightbulb, FaHeart } from 'react-icons/fa';
 
 // Inicializamos el componente AboutUs que mostrará la información sobre nuestra empresa
 const AboutUs = () => {
     return (
         <>
-            <Header />
+            
             {/* Contenedor principal */}
             <main className='bg-[#E5F7FF] flex flex-col items-center justify-center min-h-screen p-6'>
                 <div className='w-full max-w-4xl mx-auto'>
                     <section className='bg-[#083059] text-white p-12 rounded-lg shadow-lg mb-8 transform hover:scale-[1.02] transition-transform'>
                         <h1 className='text-4xl font-bold text-center mb-6'>
                             <img
-                                src='/public/logo.png'
+                                src='/logo.png'
                                 alt='logo-hackaflight'
                             />
                         </h1>

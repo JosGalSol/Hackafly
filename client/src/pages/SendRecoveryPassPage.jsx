@@ -2,7 +2,7 @@ import { useContext, useState } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 import { Navigate, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import Header from '../components/Header';
+
 
 const { VITE_API_URL } = import.meta.env;
 
@@ -56,7 +56,7 @@ const SendRecoverPassPage = () => {
 
     return (
         <>
-            <Header />
+            
             <main className='bg-[#E5F7FF] flex items-center justify-center min-h-screen p-4'>
                 <div className='bg-white p-8 rounded-lg shadow-md w-full max-w-md'>
                     <h2 className='font-bold text-[25px] text-[#083059]'>
