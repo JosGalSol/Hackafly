@@ -34,7 +34,7 @@ const filterFlightListController = ( req, res, next ) => {
         if ( departureDate && arrivalDate )
         {
             throw generateErrorUtil(
-                'No se puede filtrar por "departureTime" y "arrivalTime" al mismo tiempo.',
+                'No se puede filtrar por "departureData" y "arrivalData" al mismo tiempo.',
                 400,
             );
         }
@@ -53,7 +53,7 @@ const filterFlightListController = ( req, res, next ) => {
             {
                 throw generateErrorUtil(
                     `La aerolínea "${ airline }" no se encuentra en los resultados de búsqueda.`,
-                    400,
+                    404,
                 );
             }
             filteredFlights = filteredFlights.filter( ( flight ) =>
@@ -168,7 +168,7 @@ const filterFlightListController = ( req, res, next ) => {
             {
                 throw generateErrorUtil(
                     `No hay vuelos con ${ parsedStops } escalas en los resultados de búsqueda.`,
-                    400,
+                    404,
                 );
             }
             filteredFlights = filteredFlights.filter( ( flight ) =>

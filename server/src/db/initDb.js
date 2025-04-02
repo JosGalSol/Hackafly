@@ -67,7 +67,7 @@ const main = async () => {
         // Tabla de valoraciones.
         await pool.query(`
             CREATE TABLE IF NOT EXISTS ratings (
-                ratingId INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+                ratingId TINYINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
                 userId INT UNSIGNED NOT NULL,
                 title VARCHAR(100) NOT NULL,
                 rate Enum('1', '2', '3', '4', '5') DEFAULT '5',

@@ -68,7 +68,7 @@ const updateUserModel = async ({
 
         // Si no hay campos para actualizar, lanzar un error
         if (updates.length === 0) {
-            throw generateErrorUtil('No se proporcionaron campos para actualizar', 400);
+            throw generateErrorUtil('No se proporcionaron campos para actualizar', 404);
         }
 
         // Agregar el campo modifiedAt y el userId a los parámetros

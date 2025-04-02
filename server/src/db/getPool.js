@@ -11,7 +11,7 @@ const {
     MYSQL_USER,
     MYSQL_PASSWORD,
     MYSQL_DATABASE,
-    MYSQL_ADMIN,
+    MYSQL_ADMIN_USER,
     MYSQL_ADMIN_PASSWORD,
     MYSQL_ADMIN_EMAIL,
 } = process.env;
@@ -21,7 +21,7 @@ let pool;
 
 // Configuración del administrador.
 const adminConfig = {
-    user: MYSQL_ADMIN,
+    user: MYSQL_ADMIN_USER,
     password: MYSQL_ADMIN_PASSWORD,
     email: MYSQL_ADMIN_EMAIL || 'admin@default.com', // Valor por defecto si está vacío
 };
