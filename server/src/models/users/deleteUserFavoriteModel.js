@@ -1,33 +1,34 @@
-// Importamos la función que me permite conectarme a la base de datos.
 import { getPool } from '../../db/getPool.js';
 import generateErrorUtil from '../../utils/generateErrorUtil.js';
 
-// Función que se conecta a la base de datos para borrar un criterio de busqueda.
 const deleteUserFavoriteModel = async (favoriteId, userId) => {
-    // Obtenemos el pool.
+    // Validamos que los parámetros no sean falsy (null, undefined, '', 0, etc.)
+    if (!favoriteId) {
+        throw generateErrorUtil('El ID del favorito no es válido', 400);
+    }
+
+    if (!userId) {
+        throw generateErrorUtil('El ID del usuario no es válido', 400);
+    }
+
+    // Obtenemos el pool de conexión
     const pool = await getPool();
 
-    // Obtenemos el listado de criterios de busqueda favoritos que tengan el id que recibimos.
-    const [favorite] = await pool.query(
-        `SELECT favoriteId FROM favorites WHERE favoriteId = ? AND userId = ?`,
+    // Intentamos borrar el criterio de búsqueda favorito
+    const [result] = await pool.query(
+        `DELETE FROM favorites WHERE favoriteId = ? AND userId = ?`,
         [favoriteId, userId],
     );
-    // Si no se encontró el criterio de busqueda favorito, generamos un error.
-    if (favorite.length === 0) {
+
+    // Verificamos si se eliminó algo
+    if (result.affectedRows === 0) {
         throw generateErrorUtil(
-            'Criterio de busqueda favorito no encontrado',
+            'Criterio de búsqueda favorito no encontrado o no pertenece al usuario',
             404,
         );
     }
 
-    // Borramos el criterio de busqueda favorito de la tabla.
-    await pool.query(
-        `
-            DELETE FROM favorites WHERE favoriteId = ?
-        `,
-        [favoriteId],
-    );
-    // Devolvemos el id borrado.
+    // Devolvemos el ID borrado
     return favoriteId;
 };
 

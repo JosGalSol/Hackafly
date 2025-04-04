@@ -24,7 +24,7 @@ const recoverUserPassModel = async (recoverPassCode, newPassword) => {
     const now = new Date();
 
     await pool.query(
-        `UPDATE users SET password = ?, modifiedAt = ?, recoverPasscode = NULL WHERE userId = ?`,
+        `UPDATE users SET password = ?, modifiedAt = ?, recoverPassCode = NULL WHERE userId = ?`,
         [hashedPass, now, userId],
     );
 };

@@ -19,6 +19,7 @@ import {
     sendRecoveryPassEmailController,
     useRecoveryPassCodeController,
     userAvatarController,
+    userFavoriteDetailsController,
 } from '../controllers/users/index.js';
 
 //importamos controladores de valoraciones
@@ -54,7 +55,6 @@ router.put('/avatar', authUserMiddleware, userAvatarController);
 // Obtener el perfil del usuario (requiere estar autenticado)
 router.get('/profile', authUserMiddleware, privateUserProfileController);
 
-
 // Guardar un criterio de búsqueda como favorito (requiere autenticación)
 router.post('/favorites', authUserMiddleware, saveUserFavoriteController);
 
@@ -72,7 +72,7 @@ router.get('/favorites', authUserMiddleware, userFavoriteController);
 router.get(
     '/favorites/:favoriteId',
     authUserMiddleware,
-    userFavoriteController,
+    userFavoriteDetailsController,
 );
 
 // Eliminar un criterio de búsqueda favorito (requiere autenticación)

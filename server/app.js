@@ -32,8 +32,6 @@ app.use(morgan('dev'));
 //midlleware que evita problemas de conexión entre cliente y servidor
 app.use(cors());
 
-//middleware que indica a Express dónde se encuentran los archivos estáticos.
-app.use(express.static(UPLOADS_DIR));
 
 //middleware que permite leer un body en formato JSON
 app.use(express.json());
@@ -54,7 +52,7 @@ app.get('/', (req, res) => {
 
 // Manejo del request favicon.ico
 app.get('/favicon.ico', (req, res) => {
-    res.status(204);
+    res.sendStatus(204);
 });
 
 //middleware de manejo de errores

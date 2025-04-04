@@ -80,7 +80,7 @@ const searchFlightsController = async ( req, res, next ) => {
                         return 0;
                 }
 
-                if ( order === 'desendente' )
+                if ( order === 'descendente' )
                 {
                     return valueB - valueA;
                 } else

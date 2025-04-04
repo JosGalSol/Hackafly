@@ -11,18 +11,3 @@ const amadeus = new Amadeus({
 });
 
 export default amadeus;
-
-// 🔍 Prueba de autenticación con Amadeus
-/*
-amadeus.client
-    .get('/v1/security/oauth2/token')
-    .then((response) =>
-        console.log('✅ Autenticación exitosa:', response.result),
-    )
-    .catch((error) =>
-        console.error(
-            '❌ Error de autenticación:',
-            error.response?.data || error.message,
-        ),
-    );
-*/

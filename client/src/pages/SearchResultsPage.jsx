@@ -24,7 +24,6 @@ const SearchResultsPage = () => {
     // función para manejar el cambio de filtros
     const handleFilterChange = async (filters) => {
         try {
-
             // Filtrar los parámetros vacíos
             const searchParams = new URLSearchParams();
             Object.keys(filters).forEach((key) => {
@@ -54,8 +53,6 @@ const SearchResultsPage = () => {
             // Actualizar los vuelos con los datos filtrados
             const filteredFlights = body.data || [];
             setFlights(filteredFlights);
-
-
         } catch (err) {
             toast.error('Error al filtrar vuelos:', err);
 
@@ -187,7 +184,7 @@ const SearchResultsPage = () => {
                 />
 
                 {authToken && (
-                    <div className='w-full max-w-lg mx-auto mt-4 p-4 sm:p-6 ' >
+                    <div className='w-full max-w-lg mx-auto mt-4 p-4 sm:p-6 '>
                         {/* Titulo de la búsqueda */}
                         <input
                             type='text'
@@ -260,7 +257,6 @@ const SearchResultsPage = () => {
                                     flight={flight}
                                     searchParams={searchParams}
                                 />
-                                
                             ))
                         ) : (
                             <p>No hay vuelos que coincidan con los filtros.</p>

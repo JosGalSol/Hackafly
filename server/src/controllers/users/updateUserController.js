@@ -10,7 +10,7 @@ const updateUserController = async (req, res, next) => {
 
         // Verificar que al menos un campo esté presente para actualizar
         if (!firstName && !lastName && !username && !email && !birthdate) {
-            throw generateErrorUtil('No se proporcionaron campos para actualizar.', 400);
+            throw generateErrorUtil('No se proporcionaron campos para actualizar.', 404);
         }
 
         // Obtener el ID del usuario autenticado

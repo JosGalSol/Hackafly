@@ -68,7 +68,10 @@ const updateUserModel = async ({
 
         // Si no hay campos para actualizar, lanzar un error
         if (updates.length === 0) {
-            throw generateErrorUtil('No se proporcionaron campos para actualizar', 400);
+            throw generateErrorUtil(
+                'No se proporcionaron campos para actualizar',
+                404,
+            );
         }
 
         // Agregar el campo modifiedAt y el userId a los parámetros
@@ -77,13 +80,6 @@ const updateUserModel = async ({
         params.push(userId);
 
         // Construir y ejecutar la consulta
-        const query = `UPDATE users SET ${updates.join(', ')} WHERE userId = ?`;
-        console.log('Consulta SQL:', query); // Log de la consulta SQL
-        console.log('Parámetros:', params); // Log de los parámetros
-
-        const [result] = await pool.query(query, params);
-        console.log('Resultado de la consulta:', result); // Log del resultado
-
     } catch (err) {
         console.error('Error en updateUserModel:', err); // Log del error para depuración
         throw generateErrorUtil('Error al actualizar el usuario', 500);
