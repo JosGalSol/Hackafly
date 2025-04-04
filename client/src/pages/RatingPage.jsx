@@ -3,7 +3,7 @@ import { useContext, useState } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import useRatingList from '../hooks/useRatingList';
 import toast from 'react-hot-toast';
-import Header from '../components/Header';
+
 import RatingListItem from '../components/RatingListItem';
 
 const { VITE_API_URL } = import.meta.env;
@@ -67,7 +67,7 @@ const RatingPage = () => {
 
     return (
         <>
-            <Header />
+            
             <main className='bg-gradient-to-b from-dark-blue to-white min-h-screen flex flex-col justify-between'>
                 <div className='flex flex-col items-center justify-center flex-1 p-4'>
                     <section className='bg-white p-8 sm:p-10 rounded-lg shadow-md w-full max-w-lg lg:max-w-4xl transition transform hover:scale-[1.008]'>
@@ -139,7 +139,6 @@ const RatingPage = () => {
                                     value={comment}
                                     onChange={(e) => setComment(e.target.value)}
                                 >
-                                    DÉJANOS UN COMENTARIO
                                 </textarea>
 
                                 <button

@@ -5,7 +5,7 @@ import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
 // Importamos el contexto de autorización.
 import { AuthContext } from '../contexts/AuthContext';
-import Header from '../components/Header.jsx';
+
 // Importamos la URL de nuestra API.
 const { VITE_API_URL } = import.meta.env;
 
@@ -69,7 +69,7 @@ const ResetPassword = () => {
     }
     return (
         <>
-            <Header />
+            
             <main className='bg-[#E5f7ff] min-h-screen flex items-center justify-center p-4'>
                 <div className='bg-white p-6 rounded-lg shadow-md w-full max-w-sm'>
                     <h2>Cambiar Contraseña</h2>

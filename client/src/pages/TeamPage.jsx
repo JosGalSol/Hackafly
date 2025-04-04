@@ -1,4 +1,4 @@
-import Header from '../components/Header';
+
 
 const teamMembers = [
     { name: "Josep Galán", image: "/p1.png" },
@@ -12,7 +12,7 @@ const teamMembers = [
 const TeamPage = () => {
     return (
         <>
-            <Header />
+            
             <main className='bg-[#E5F7FF] flex flex-col items-center justify-center p-6 h-auto'>
                 <div className='w-full max-w-4xl mx-auto'>
                     <section className='bg-[#083059] text-white p-12 rounded-lg shadow-lg mb-8 transform hover:scale-[1.02] transition-transform'>

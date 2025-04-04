@@ -7,7 +7,7 @@ import useRatingList from '../hooks/useRatingList';
 //importamos componentes
 import RatingListItem from '../components/RatingListItem';
 import toast from 'react-hot-toast';
-import Header from '../components/Header';
+
 
 //importamos variables de entorno
 const { VITE_API_URL } = import.meta.env;
@@ -77,7 +77,7 @@ const RatingsListPage = () => {
     //Mostramos las valoraciones
     return (
         <>
-            <Header />
+            
             <main className='bg-gradient-to-b from-dark-blue to-white flex flex-col items-center justify-center min-h-screen p-6 '>
                 <section className='bg-white p-8 rounded-lg shadow-md w-full max-w-5xl mx-auto'>
                     <h2 className='text-4xl font-light font-heading text-[#083059] text-center mb-6'>

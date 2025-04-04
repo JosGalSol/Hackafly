@@ -3,7 +3,7 @@ import toast from 'react-hot-toast';
 import { Navigate } from 'react-router-dom';
 import useAuthContext from '../hooks/useAuthContext.js';
 import { Link } from 'react-router-dom';
-import Header from '../components/Header.jsx';
+
 import { Eye, EyeOff } from 'lucide-react';
 
 const { VITE_API_URL } = import.meta.env;
@@ -54,7 +54,7 @@ const LoginPage = () => {
 
     return (
         <>
-            <Header />
+            
             <main className='bg-gradient-to-b from-dark-blue to-white flex items-center justify-center min-h-screen p-4'>
                 <div className='bg-white p-6 rounded-xl shadow-lg w-full max-w-lg'>
                     <h2 className='text-3xl font-heading font-light text-dark-blue text-center mb-8'>
@@ -139,7 +139,7 @@ const LoginPage = () => {
                         </button>
                         <div className='text-center text-[#083059]'>
                             <p>
-                                ¿Ya tienes cuenta?
+                                ¿No tienes cuenta?
                                 <Link
                                     to='/register'
                                     className='text-medium-blue pl-2 hover:underline'

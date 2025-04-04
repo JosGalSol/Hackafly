@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 import useAuthContext from '../hooks/useAuthContext.js';
 //importamos momento para configurar la fehca entregada por el servidor
 import moment from 'moment';
-import Header from '../components/Header.jsx';
+
 
 // Importamos la URL de nuestra API.
 const { VITE_API_URL } = import.meta.env;
@@ -166,7 +166,7 @@ const EditProfilePage = () => {
     // formulario para editar el perfil
     return (
         <>
-            <Header />
+            
             <main className='bg-gradient-to-b from-dark-blue to-thite min-h-screen flex flex-col justify-center p-4'>
                 <div className='bg-white p-6 sm:p-8 rounded-lg shadow-md w-full max-w-sm lg:max-w-4xl mx-auto transition transform hover:scale-[1.008]'>
                     <h2 className='text-3xl sm:text-4xl font-heading font-light text-dark-blue text-center mb-6'>

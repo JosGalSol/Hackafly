@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 //Importamos dependencias
 import toast from 'react-hot-toast';
-import Header from '../components/Header';
+
 
 //importamos variables de entorno
 const { VITE_API_URL } = import.meta.env;
@@ -84,7 +84,7 @@ const RegisterPage = () => {
     }
     return (
         <>
-            <Header />
+            
             <main className='bg-gradient-to-b from-dark-blue to-white flex items-center justify-center min-screen p-4'>
                 <div className='bg-white p-6 rounded-xl shadow-lg w-full max-w-5xl'>
                     <h2 className='text-3xl font-heading font-light text-dark-blue text-center mb-8'>

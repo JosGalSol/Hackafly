@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import FlightCard from '../components/FlightCard';
 import FlightFilters from '../components/FlightFilters';
-import Header from '../components/Header';
+
 import useAuthContext from '../hooks/useAuthContext';
 import toast from 'react-hot-toast';
 import ScrollToTopButton from '../components/ScrollTopButton';
@@ -20,22 +20,6 @@ const SearchResultsPage = () => {
     const { searchParams = {} } = location.state || {};
     const [flights, setFlights] = useState(location.state?.flights ?? []);
     const { authToken } = useAuthContext();
-
-    // actualiza los vuelos cuando cambia la ubicación
-
-    useEffect(() => {
-        if (location.state?.flights) {
-            console.log('Location state flights:', location.state.flights);
-            location.state.flights.forEach((flight, index) => {
-                console.log(`Flight ${index} itineraries:`, flight.itineraries);
-            });
-            setFlights(location.state.flights);
-            console.log(
-                'Initial flights data after setFlights:',
-                location.state.flights,
-            );
-        }
-    }, [location.state?.flights]);
 
     // función para manejar el cambio de filtros
     const handleFilterChange = async (filters) => {
@@ -64,23 +48,14 @@ const SearchResultsPage = () => {
                 );
             const body = await res.json();
 
-            console.log('Response body:', body);
             if (body.status === 'error') throw new Error(body.message);
 
             // Actualizar los vuelos con los datos filtrados
             const filteredFlights = body.data || [];
             setFlights(filteredFlights);
-
-            filteredFlights.forEach((flight, index) => {
-                console.log(
-                    `Filtered Flight ${index} itineraries:`,
-                    flight.itineraries,
-                );
-            });
         } catch (err) {
-            console.log('Error al filtrar vuelos:', err);
-            console.log('Error message:', err.message);
-            console.log('Error stack:', err.stack);
+            toast.error('Error al filtrar vuelos:', err);
+
         }
     };
 
@@ -201,7 +176,7 @@ const SearchResultsPage = () => {
     // Renderizar la página de resultados de búsqueda
     return (
         <>
-            <Header />
+            
             <section className='bg-light-blue'>
                 <FlightFilters
                     onFilterChange={handleFilterChange}

@@ -6,7 +6,7 @@ import SearchForm from '../components/SearchForm';
 //import CarouselImages from '../components/CarouselImages';
 import RecentSearches from '../components/RecentSearches';
 import PopularDestinations from '../components/PopularDestinations';
-import Header from '../components/Header';
+
 import RatingsSummary from '../components/RatingsSummary';
 import { AuthContext } from '../contexts/AuthContext';
 
@@ -201,9 +201,8 @@ const HomePage = () => {
     // Renderizamos el componente
     return (
         <main className='min-h-screen bg-gradient-to-b from-dark-blue to-white'>
-            <Header className='sticky' />
-
-            <section className='relative flex flex-col items-center justify-center p-4 mt-16'>
+    
+            <section className='relative flex flex-col items-center justify-center p-4'>
                 <div className='bg-white p-6 sm:p-8 rounded-lg shadow-md w-full max-w-5xl relative z-20 hover:scale-[1.008]'>
                     <h1 className='mb-6 text-3xl sm:text-4xl font-heading font-light text-dark-blue text-center'>
                         ¡HACKEA TU VUELO!

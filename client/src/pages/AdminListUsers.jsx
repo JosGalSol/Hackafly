@@ -5,7 +5,6 @@ import toast from 'react-hot-toast';
 // Importamos el hook personalizado
 import useUsersList from '../hooks/useUsersList.js';
 import { AuthContext } from '../contexts/AuthContext';
-import Header from '../components/Header.jsx';
 
 // Obtenemos las variables de entorno
 const { VITE_API_URL } = import.meta.env;
@@ -35,6 +34,7 @@ const AdminListUsers = () => {
 
     // Habilitar/Deshabilitar usuario
     const handleToggleUserStatus = async (userId, isActive) => {
+        const toastId = `toggle-status-${userId}`; // Generamos un id único para este toast
         try {
             const res = await fetch(`${VITE_API_URL}/api/admin/users/${userId}/true`, {
                 method: 'PATCH',
@@ -42,7 +42,7 @@ const AdminListUsers = () => {
                     'Content-Type': 'application/json',
                     Authorization: `${authToken}`,
                 },
-                body: JSON.stringify({ isActive: !isActive })
+                body: JSON.stringify({ isActive: !isActive }),
             });
 
             const data = await res.json();
@@ -55,42 +55,51 @@ const AdminListUsers = () => {
                 )
             );
 
-            toast.success(`Usuario ${!isActive ? 'habilitado' : 'deshabilitado'} correctamente.`);
+            // Mostrar un mensaje de éxito y evitar duplicados usando `id`
+            toast.success(`Usuario ${!isActive ? 'habilitado' : 'deshabilitado'} correctamente.`, {
+                id: toastId,
+            });
         } catch (error) {
-            toast.error(`Error: ${error.message || 'No se pudo actualizar el usuario.'}`);
+            toast.error(`Error: ${error.message || 'No se pudo actualizar el usuario.'}`, {
+                id: toastId, // Usamos el mismo id para no acumular múltiples toasts
+            });
         }
     };
 
- // Borrar usuario
-const handleDeleteUser = async (userId) => {
-    // Confirmación para borrar
-    if (!window.confirm('¿Estás seguro de eliminar este usuario?')) return;
+    // Borrar usuario
+    const handleDeleteUser = async (userId) => {
+        const toastId = `delete-user-${userId}`; // Generamos un id único para este toast
 
-    try {
-        // Realizar la solicitud DELETE al backend
-        const res = await fetch(`${VITE_API_URL}/api/admin/users/${userId}`, {
-            method: 'DELETE',
-            headers: { Authorization: `${authToken}` },
-        });
+        // Confirmación para borrar
+        if (!window.confirm('¿Estás seguro de eliminar este usuario?')) return;
 
-        const data = await res.json();
+        try {
+            // Realizar la solicitud DELETE al backend
+            const res = await fetch(`${VITE_API_URL}/api/admin/users/${userId}`, {
+                method: 'DELETE',
+                headers: { Authorization: `${authToken}` },
+            });
 
-        // Si la respuesta no es exitosa, lanzamos un error
-        if (!res.ok) throw new Error(data.message);
+            const data = await res.json();
 
-        // Actualizar la lista de usuarios en el estado local, eliminando el usuario
-        setUsersList((prevUsers) => 
-            prevUsers.filter((user) => user.userId !== userId) // Eliminamos al usuario de la lista
-        );
+            // Si la respuesta no es exitosa, lanzamos un error
+            if (!res.ok) throw new Error(data.message);
 
-        // Mostrar un mensaje de éxito
-        toast.success('Usuario eliminado correctamente.');
-        toast('Recarga la página para ver los cambios.');
-    } catch (error) {
-        // Manejar errores si algo sale mal
-        toast.error(`Error: ${error.message || 'No se pudo eliminar el usuario.'}`);
-    }
-};
+            // Actualizar la lista de usuarios en el estado local, eliminando el usuario
+            setUsersList((prevUsers) =>
+                prevUsers.filter((user) => user.userId !== userId) // Eliminamos al usuario de la lista
+            );
+
+            // Mostrar un mensaje de éxito
+            toast.success('Usuario eliminado correctamente.', { id: toastId });
+            toast('Recarga la página para ver los cambios.', { id: `reload-${userId}` }); // ID único para este toast también
+        } catch (error) {
+            // Manejar errores si algo sale mal
+            toast.error(`Error: ${error.message || 'No se pudo eliminar el usuario.'}`, {
+                id: toastId,
+            });
+        }
+    };
 
     useEffect(() => {
         if (!token) {
@@ -101,7 +110,6 @@ const handleDeleteUser = async (userId) => {
 
     return (
         <>
-            <Header />
             <main className="bg-gradient-to-b from-dark-blue to-white min-h-screen flex flex-col justify-between">
                 <div className="flex flex-col items-center justify-center flex-1 p-4">
                     <div className="bg-white p-6 sm:p-8 rounded-lg shadow-md w-full max-w-lg lg:max-w-4xl transition transform hover:scale-[1.008]">

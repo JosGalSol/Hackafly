@@ -22,10 +22,12 @@ import AboutUs from './pages/AboutUs';
 import SendRecoverPassPage from './pages/SendRecoveryPassPage';
 import ResetPassword from './pages/ResetPassword';
 import TeamPage from './pages/TeamPage';
+import Header from './components/Header';
 
 const App = () => {
     return (
         <>
+        <Header />
             <Toaster position='top-center' />
             {/* Todos los endpoints han de definirse dentro de este compontente. */}
             <Routes>

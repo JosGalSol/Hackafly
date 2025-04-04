@@ -3,13 +3,12 @@ import { useParams } from 'react-router-dom';
 import useAuthContext from '../hooks/useAuthContext.js';
 import { useNavigate } from "react-router-dom";
 import toast from 'react-hot-toast';
-import Header from '../components/Header.jsx';
 import aircodes from 'aircodes';
 
 const { VITE_API_URL } = import.meta.env;
 
 const FavoriteDetailsEditPage = () => {
-    const [favorites, setFavorite] = useState({});
+    const [favorites, setfavorites] = useState({});
     const [loading, setLoading] = useState(true);
     const [initialFavorites, setInitialFavorites] = useState({});
     const [isEditing, setIsEditing] = useState(false);
@@ -49,7 +48,7 @@ const FavoriteDetailsEditPage = () => {
                 if (body.status === 'error') {
                     throw new Error(body.message);
                 }
-                setFavorite(body.data.favorites);
+                setfavorites(body.data.favorites);
                 setInitialFavorites(body.data.favorites);
             } catch (err) {
                 toast.error(err.message, {
@@ -107,7 +106,7 @@ const FavoriteDetailsEditPage = () => {
 
     // Cambiamos el valor de un input al editar un favorito.
     const handleChange = (e) => {
-        setFavorite({
+        setfavorites({
             ...favorites,
             [e.target.name]: e.target.value,
         });
@@ -183,7 +182,7 @@ const FavoriteDetailsEditPage = () => {
     };
 
     const handleCancel = () => {
-        setFavorite(initialFavorites); // Restauramos el estado inicial
+        setfavorites(initialFavorites); // Restauramos el estado inicial
         setIsEditing(false); // Dejamos de editar
     };
     
@@ -202,7 +201,7 @@ const FavoriteDetailsEditPage = () => {
                         </div>
                     </div>
                 )}
-            <Header />
+            
                     {/* Animación de carga sobrepuesta */}
         {loading && (
             <div className='fixed inset-0 bg-dark-blue bg-opacity-90 flex items-center justify-center z-50'>
@@ -255,7 +254,7 @@ const FavoriteDetailsEditPage = () => {
                                         key={airport.iata}
                                         className="p-2 hover:bg-gray-200 cursor-pointer"
                                         onClick={() => {
-                                            setFavorite({ ...favorites, origin: airport.iata });
+                                            setfavorites({ ...favorites, origin: airport.iata });
                                             setOriginSuggestions([]); // Ocultar las sugerencias
                                         }}
                                     >
@@ -289,7 +288,7 @@ const FavoriteDetailsEditPage = () => {
                                         key={airport.iata}
                                         className="p-2 hover:bg-gray-200 cursor-pointer"
                                         onClick={() => {
-                                            setFavorite({ ...favorites, destination: airport.iata });
+                                            setfavorites({ ...favorites, destination: airport.iata });
                                             setDestinationSuggestions([]); // Ocultar las sugerencias
                                         }}
                                     >

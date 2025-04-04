@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 
 const { VITE_API_URL } = import.meta.env;
 import { useNavigate } from 'react-router-dom';
-import Header from '../components/Header.jsx';
+
 
 const FavoritesPage = () => {
     const [favorites, setFavorites] = useState([]);
@@ -91,14 +91,11 @@ const FavoritesPage = () => {
                 );
                 const bodyVuelta = await resVuelta.json();
 
-                if (resVuelta.ok && bodyVuelta.length > 0) {
-                    returnFlights = bodyVuelta.map((flight) => ({
-                        ...flight,
-                        isReturn: true,
-                    }));
+                    if (resVuelta.ok && bodyVuelta.length > 0) {
+                        returnFlights = bodyVuelta.map((flight) => ({ ...flight, isReturn: true }));
+                    }
                 }
-            }
-
+          
             //Envia los datos del favorito para mostrar los vuelos directamente
             navigate('/search-results', {
                 state: {
@@ -165,23 +162,8 @@ const FavoritesPage = () => {
                             hackeando tu vuelo...
                         </p>
                     </div>
-                </div>
-            )}
-            {/* Header */}
-            <Header />
-            {loading && (
-                <div className='fixed inset-0 bg-dark-blue bg-opacity-90 flex items-center justify-center z-50'>
-                    <div className='bg-white p-8 rounded-md shadow-lg max-w-xs mx-auto'>
-                        <div className='w-16 h-16 border-8 border-dark-blue border-dashed rounded-full animate-spin mx-auto mb-4'></div>
-                        <h2 className='text-dark-blue text-2xl font-bold text-center'>
-                            Cargando...
-                        </h2>
-                        <p className='text-dark-blue text-center mt-2'>
-                            Hackeando tu vuelo...
-                        </p>
-                    </div>
-                </div>
-            )}
+                )}
+
             {/* Contenido Principal (ocupa el espacio restante) */}
             <main className='flex-grow w-full max-w-4xl mx-auto mt-6 p-4 sm:p-6 bg-white rounded-lg shadow-md mb-10'>
                 <h2 className='text-2xl sm:text-3xl font-semibold text-center text-dark-blue mb-4 sm:mb-6'>

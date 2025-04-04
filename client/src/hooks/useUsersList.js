@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 // Importamos el contexto de autorización.
 import useAuthContext from '../hooks/useAuthContext.js';
+import toast from 'react-hot-toast';
 
 const { VITE_API_URL } = import.meta.env;
 
@@ -9,7 +10,7 @@ const useUsersList = () => {
     const [loading, setLoading] = useState(false);
     const { authToken } = useAuthContext();
 
-    const getUsers = async (searchValues) => {
+    const getUsers = async () => {
         setLoading(true);
 
         try {
@@ -34,8 +35,10 @@ const useUsersList = () => {
 
             const body = await response.json();
             setUsers(body.data);
-        } catch (error) {
-            console.error('Error en la petición:', error);
+        } catch (err) {
+            toast.error(err.message, {
+                id: 'favoriteId',
+            });
         } finally {
             setLoading(false);
         }
@@ -49,4 +52,3 @@ const useUsersList = () => {
 };
 
 export default useUsersList;
-
